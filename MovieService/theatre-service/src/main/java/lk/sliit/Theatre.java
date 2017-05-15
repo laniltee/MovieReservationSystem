@@ -1,6 +1,8 @@
 package lk.sliit;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by VMARALA on 5/15/2017.
@@ -8,12 +10,26 @@ import java.util.Arrays;
 public class Theatre {
 
     private String theatreName;
+    private String theatreCode;
     private String theatreLocation;
     private int seatsCount;
     private String contactNo;
     private String[] showTimes;
     private int price;
     private int restaurantSeats;
+    private List<Movie> movieList;
+
+    public Theatre(String theatreName, String theatreLocation, int seatsCount, String contactNo, String[] showTimes, int price, int restaurantSeats) {
+        this.theatreName = theatreName;
+        this.theatreLocation = theatreLocation;
+        this.seatsCount = seatsCount;
+        this.contactNo = contactNo;
+        this.showTimes = showTimes;
+        this.price = price;
+        this.restaurantSeats = restaurantSeats;
+        movieList = new ArrayList<>();
+        this.theatreCode = theatreName.charAt(0) + "TC" + theatreName.charAt(1);
+    }
 
     public String getTheatreName() {
         return theatreName;
@@ -69,6 +85,22 @@ public class Theatre {
 
     public void setRestaurantSeats(int restaurantSeats) {
         this.restaurantSeats = restaurantSeats;
+    }
+
+    public void reserveSeat(){
+        this.seatsCount--;
+    }
+
+    public void addMovie(Movie m){
+        this.movieList.add(m);
+    }
+
+    public String getTheatreCode() {
+        return theatreCode;
+    }
+
+    public List<Movie> getMovieList() {
+        return movieList;
     }
 
     @Override
