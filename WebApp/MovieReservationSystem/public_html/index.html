@@ -18,25 +18,85 @@ and open the template in the editor.
 
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <!-- Angular JavaScript -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+        <!--Main Script-->
+        <script src="masterController.js"></script>
+        
+        <!--Main Style-->
+        <link rel="stylesheet" href="style.css">
     </head>
-    <body>
+    <body ng-app="movieApp" ng-controller="masterController">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Movie Reservation System</a>
+                    <a class="navbar-brand" href="#">Universal Movie Reservation System</a>
                 </div>
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">Now Playing !</a></li>
-                    <li><a href="#">Upcoming</a></li>
-                    <li><a href="#">About Us</a></li>
-                </ul>
             </div>
         </nav>
-        <div class="container-fluid">
-            <div class="row">
-                <h1>Make A Reservation</h1>
+        <div class="container">
+            <div class="col-md-6">
+                <h1 class="text-center">All Movies</h1>
                 <hr>
+                <div class="media" ng-repeat="movie in allMovies">
+                    <div class="media-left">
+                        <img src="media/popcorn.png" class="media-object">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">{{movie.movieName}}</h4>
+                        <p>{{movie.genre}}<span class="pull-right movie-year">{{movie.year}}</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h1 class="text-center">Make A Reservation</h1>
+                <hr>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Select Theatre:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" ng-change="getMoviesByTheatre()" ng-model="theatreIN">
+                                <option ng-repeat="theatre in allTheatres" value="{{theatre.theatreCode}}">{{theatre.theatreName}} - {{theatre.theatreLocation | uppercase}}</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Select Movie:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control">
+                                <option ng-repeat="movie in specificMovies" value="">{{movie.movieName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">No.of Seats:</label>
+                        <div class="col-sm-10"> 
+                            <input type="number" min="1" class="form-control" id="pwd" placeholder="Enter no.of Seats">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Select Snack:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control">
+                                <option ng-repeat="snack in allSnacks" value="{{snack.snackCode}}">{{snack.snackName}} - Rs. {{snack.snackPrice}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Cafe Seats:</label>
+                        <div class="col-sm-10"> 
+                            <input type="number" min="1" class="form-control" id="a" placeholder="Enter no.of Seats You Want In Restaurent">
+                        </div>
+                    </div>
+                    <div class="form-group"> 
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </body>

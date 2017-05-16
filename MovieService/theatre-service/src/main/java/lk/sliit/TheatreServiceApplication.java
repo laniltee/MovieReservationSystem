@@ -20,8 +20,13 @@ public class TheatreServiceApplication {
 	private static Theatre newFreedom = new Theatre("New Freedom", "Gampaha", 350, "0772657689", new String[]{"10:20:00, 13:30:00, 17:30"}, 350, 10);
 	private static Theatre wonderCinema = new Theatre("Wonder Cinema", "Panadura", 200, "0776787654", new String[]{"10:20:00, 13:30:00, 17:30"}, 400, 30);
 
-	public static HashMap<String, Theatre> theatres = new HashMap<>();
+	private static User u1 = new User("ajith", "ajith123");
+    private static User u2 = new User("sarath", "sarath123");
 
+	public static HashMap<String, Theatre> theatres = new HashMap<>();
+    public static HashMap<String, User> users = new HashMap<>();
+    public static List<Movie> allMovies = new ArrayList<>();
+    public static List<Snack> allSnacks = new ArrayList<>();
 
 
 	public static void main(String[] args) {
@@ -30,10 +35,22 @@ public class TheatreServiceApplication {
         theatres.put(newFreedom.getTheatreCode(), newFreedom);
         theatres.put(wonderCinema.getTheatreCode(), wonderCinema);
 
+        users.put(u1.getUserName(), u1);
+        users.put(u2.getUserName(), u2);
+
+        allMovies.add(lionKing);
+        allMovies.add(theIncredibles);
+        allMovies.add(frozen);
+        allMovies.add(toyStory);
+
+
+
         Snack popCorn = new Snack("Pop Corn", 200);
         Snack cola = new Snack("Pop Cola", 150);
         Snack whiteSugar = new Snack("Solid Sugar Brix", 100);
         Snack bitBytes = new Snack("Bits & Bytes", 100);
+
+        allSnacks.add(popCorn);allSnacks.add(cola);allSnacks.add(whiteSugar);allSnacks.add(bitBytes);
 
 
         newCinema.addMovie(lionKing);

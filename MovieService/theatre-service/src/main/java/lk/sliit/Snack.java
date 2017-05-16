@@ -7,10 +7,12 @@ public class Snack {
 
     private String snackName;
     private int snackPrice;
+    private String snackCode;
 
     public Snack(String snackName, int snackPrice) {
         this.snackName = snackName;
         this.snackPrice = snackPrice;
+        this.snackCode = "S" + ServiceUtility.getRandomNumber();
     }
 
     public void setSnackName(String snackName) {
@@ -27,6 +29,10 @@ public class Snack {
 
     public int getSnackPrice() {
         return snackPrice;
+    }
+
+    public String getSnackCode() {
+        return snackCode;
     }
 
     @Override

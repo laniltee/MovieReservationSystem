@@ -28,7 +28,7 @@ public class Theatre {
         this.price = price;
         this.restaurantSeats = restaurantSeats;
         movieList = new ArrayList<>();
-        this.theatreCode = theatreName.charAt(0) + "TC" + theatreName.charAt(1);
+        this.theatreCode = "TH" + ServiceUtility.getRandomNumber();
     }
 
     public String getTheatreName() {
