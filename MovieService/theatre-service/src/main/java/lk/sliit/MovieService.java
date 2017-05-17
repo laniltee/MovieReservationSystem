@@ -88,16 +88,15 @@ public class MovieService {
             r.setTotal(r.getT().getPrice() * r.getSeats() + r.getS().getSnackPrice());
             System.out.println(r.toString());
 
-//            if (TheatreServiceApplication.userReservations.containsKey(r.getU().getUserName())) {
-//                TheatreServiceApplication.userReservations.get(r.getU().getUserName()).add(r);
-//            } else {
-//                List<Reservation> l = new ArrayList<>();
-//                l.add(r);
-//                TheatreServiceApplication.userReservations.put(r.getU().getUserName(), l);
-//            }
+            if (TheatreServiceApplication.userReservations.containsKey(r.getU().getUserName())) {
+                TheatreServiceApplication.userReservations.get(r.getU().getUserName()).add(r);
+            } else {
+                List<Reservation> l = new ArrayList<>();
+                l.add(r);
+                TheatreServiceApplication.userReservations.put(r.getU().getUserName(), l);
+            }
 
             r.setActivated(true);
-            //r.getU().addReservation(r);
         } catch (IOException e) {
             e.printStackTrace();
             r.setActivated(false);
@@ -107,6 +106,6 @@ public class MovieService {
 
     @RequestMapping(value = "/reservations/{username}", method = RequestMethod.GET)
     public List<Reservation> getReservationsByUser(@PathVariable String username) {
-        return TheatreServiceApplication.users.get(username).getReservations();
+        return TheatreServiceApplication.userReservations.get(username);
     }
 }

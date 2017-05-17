@@ -1,6 +1,7 @@
 package lk.sliit;
 
 import javax.jws.soap.SOAPBinding;
+import java.time.LocalDateTime;
 
 /**
  * Created by VMARALA on 5/16/2017.
@@ -15,9 +16,11 @@ public class Reservation {
     private int resSeats;
     private int total;
     private boolean activated;
+    private String timeStamp;
 
-    public Reservation(){
+    public Reservation() {
         this.id = "RES" + ServiceUtility.getRandomNumber();
+        this.timeStamp = LocalDateTime.now().toString().replace("T", " ").substring(0, 19);
     }
 
     public Reservation(Theatre t, User u, Movie m, int seats, Snack s, int resSeats) {
@@ -101,6 +104,10 @@ public class Reservation {
 
     public void setActivated(boolean activated) {
         this.activated = activated;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
     }
 
     @Override

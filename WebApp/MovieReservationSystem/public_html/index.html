@@ -37,75 +37,109 @@ and open the template in the editor.
             </div>
         </nav>
         <div class="container">
-            <div class="col-md-6">
-                <h1 class="text-center">All Movies</h1>
-                <hr>
-                <div class="media" ng-repeat="movie in allMovies">
-                    <div class="media-left">
-                        <img src="media/popcorn.png" class="media-object">
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">{{movie.movieName}}</h4>
-                        <p>{{movie.genre}}<span class="pull-right movie-year">{{movie.year}}</span></p>
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="text-center">All Movies</h1>
+                    <hr>
+                    <div class="media" ng-repeat="movie in allMovies">
+                        <div class="media-left">
+                            <img src="media/popcorn.png" class="media-object">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{movie.movieName}}</h4>
+                            <p>{{movie.genre}}<span class="pull-right movie-year">{{movie.year}}</span></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <h1 class="text-center">Make A Reservation</h1>
-                <hr>
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Select Theatre:</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" ng-change="getMoviesByTheatre()" ng-model="theatreIN">
-                                <option ng-repeat="theatre in allTheatres" value="{{theatre.theatreCode}}">{{theatre.theatreName}} - {{theatre.theatreLocation| uppercase}}</option>
-                            </select>
-                        </div>
+                <div class="col-md-6">
+                    <h1 class="text-center">Make A Reservation</h1>
+                    <hr>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Select Theatre:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-change="getMoviesByTheatre()" ng-model="theatreIN">
+                                    <option ng-repeat="theatre in allTheatres" value="{{theatre.theatreCode}}">{{theatre.theatreName}} - {{theatre.theatreLocation| uppercase}}</option>
+                                </select>
+                            </div>
 
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Select Movie:</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" ng-model="movieIN">
-                                <option ng-repeat="movie in specificMovies" value="{{movie.movieId}}">{{movie.movieName}}</option>
-                            </select>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">No.of Seats:</label>
-                        <div class="col-sm-10"> 
-                            <input type="number" ng-model="seatsIN" min="1" class="form-control" id="pwd" placeholder="Enter no.of Seats">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Select Snack:</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" ng-model="snackIN">
-                                <option ng-repeat="snack in allSnacks" value="{{snack.snackCode}}">{{snack.snackName}} - Rs. {{snack.snackPrice}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Cafe Seats:</label>
-                        <div class="col-sm-10"> 
-                            <input type="number" ng-model="cafeIN" min="1" class="form-control" id="a" placeholder="Enter no.of Seats You Want In Restaurent">
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="!mainFormValidated">
-                        <label class="control-label col-sm-2"></label>
-                        <div class="col-sm-10"> 
-                            <div class="alert alert-danger">
-                                <strong>Error !</strong> Some of Your Inputs are not Valid :(.
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Select Movie:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-model="movieIN">
+                                    <option ng-repeat="movie in specificMovies" value="{{movie.movieId}}">{{movie.movieName}}</option>
+                                </select>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="form-group"> 
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button class="btn btn-default" ng-click="mockReservation()">Proceed With Payment</button>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">No.of Seats:</label>
+                            <div class="col-sm-10"> 
+                                <input type="number" ng-model="seatsIN" min="1" class="form-control" id="pwd" placeholder="Enter no.of Seats">
+                            </div>
                         </div>
-                    </div>
-                </form>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Select Snack:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-model="snackIN">
+                                    <option ng-repeat="snack in allSnacks" value="{{snack.snackCode}}">{{snack.snackName}} - Rs. {{snack.snackPrice}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Cafe Seats:</label>
+                            <div class="col-sm-10"> 
+                                <input type="number" ng-model="cafeIN" min="1" class="form-control" id="a" placeholder="Enter no.of Seats You Want In Restaurent">
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="!mainFormValidated">
+                            <label class="control-label col-sm-2"></label>
+                            <div class="col-sm-10"> 
+                                <div class="alert alert-danger">
+                                    <strong>Error !</strong> Some of Your Inputs are not Valid :(.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group"> 
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" ng-click="mockReservation()">Proceed With Payment</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-center">My Reservations</h1>
+                    <hr>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Date / Time</th>
+                                <th>Theatre</th>
+                                <th>Movie</th>
+                                <th>Seats</th>
+                                <th>Snacks</th>
+                                <th>Reservations</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="res in myReservations">
+                                <td>{{res.id}}</td>
+                                <td>{{res.timeStamp}}</td>
+                                <td>{{res.t.theatreName}}</td>
+                                <td>{{res.m.movieName}}</td>
+                                <td>{{res.seats}} x {{res.t.price}} = {{res.t.price * res.seats}}</td>
+                                <td>{{res.s.snackName}} - {{res.s.snackPrice}}</td>
+                                <td>{{res.resSeats}}</td>
+                                <td>{{res.total}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </body>
