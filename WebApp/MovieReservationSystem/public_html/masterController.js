@@ -8,14 +8,16 @@ var app = angular.module("movieApp", []);
 
 app.controller("masterController", function ($scope, $http) {
 
-    $scope.testVal = "Movie System";
     var baseApi = "http://localhost:8080/api/";
+    var jsonHeaderObject = {headers: {'Content-Type': 'application/json'}};
 
     //Scope variables for front end;
     $scope.allMovies = [];
     $scope.allTheatres = [];
     $scope.allSnacks = [];
     $scope.specificMovies = ["Select A Theatre First"];
+    $scope.mainFormValidated = true;
+    $scope.testVal = "Movie System";
 
     //Eager loading of stuff
     $http.get(baseApi + "movies").then(function (response) {
@@ -25,7 +27,7 @@ app.controller("masterController", function ($scope, $http) {
     $http.get(baseApi + "theatres").then(function (response) {
         $scope.allTheatres = response.data;
     });
-    
+
     $http.get(baseApi + "snacks").then(function (response) {
         $scope.allSnacks = response.data;
     });
@@ -33,9 +35,39 @@ app.controller("masterController", function ($scope, $http) {
     //Master functions
     $scope.getMoviesByTheatre = function () {
         var selectefTheatre = $scope.theatreIN;
-        $http.get(baseApi + "movies/" + selectefTheatre).then(function (response) {
+        $http.get(baseApi + "theatres/movies/" + selectefTheatre).then(function (response) {
             $scope.specificMovies = response.data;
         });
+    };
+
+    $scope.mockReservation = function () {
+        var validated = true;
+        var newObject = {
+            theatre: $scope.theatreIN,
+            movie: $scope.movieIN,
+            seats: parseInt($scope.seatsIN),
+            snack: $scope.snackIN,
+            cafe: parseInt($scope.cafeIN),
+            user: "ajith"
+        };
+        if (newObject.theatre == null || newObject.movie == null || newObject.snack == null || isNaN(newObject.seats) || isNaN(newObject.cafe)) {
+            $scope.mainFormValidated = false;
+        } else {
+            $scope.mainFormValidated = true;
+        }
+        console.log(newObject);
+
+        if ($scope.mainFormValidated) {
+            $http.post(baseApi + "reservations", JSON.stringify(newObject), jsonHeaderObject).then(function (response) {
+                console.log("response success");
+                console.log(response.data);
+            }, function (response) {
+                console.log("response.data failed");
+            }).finally(function () {
+
+            });
+        }
+
     };
 });
 

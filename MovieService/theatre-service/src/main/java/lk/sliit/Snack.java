@@ -12,7 +12,7 @@ public class Snack {
     public Snack(String snackName, int snackPrice) {
         this.snackName = snackName;
         this.snackPrice = snackPrice;
-        this.snackCode = "S" + ServiceUtility.getRandomNumber();
+        this.snackCode = "SN_" + this.snackName.substring(0,5).replace(" ", "");
     }
 
     public void setSnackName(String snackName) {

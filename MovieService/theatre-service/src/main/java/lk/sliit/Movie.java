@@ -9,6 +9,7 @@ public class Movie {
     private String genre;
     private String startDate;
     private String endDate;
+    private String movieId;
     private int year;
 
     public Movie(String movieName, String genre, String startDate, String endDate, int year) {
@@ -17,6 +18,7 @@ public class Movie {
         this.startDate = startDate;
         this.endDate = endDate;
         this.year = year;
+        this.movieId = "MO_" + this.movieName.substring(0,5).replace(" ", "");
     }
 
     public String getMovieName() {
@@ -57,6 +59,10 @@ public class Movie {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public String getMovieId() {
+        return movieId;
     }
 
     @Override
