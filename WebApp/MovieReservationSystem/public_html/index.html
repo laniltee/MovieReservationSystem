@@ -54,7 +54,7 @@ and open the template in the editor.
                 <div class="col-md-6">
                     <h1 class="text-center">Make A Reservation</h1>
                     <hr>
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" ng-if="formSelector == 'BASIC'">
                         <div class="form-group">
                             <label class="control-label col-sm-2">Select Theatre:</label>
                             <div class="col-sm-10">
@@ -76,6 +76,16 @@ and open the template in the editor.
                             <label class="control-label col-sm-2">No.of Seats:</label>
                             <div class="col-sm-10"> 
                                 <input type="number" ng-model="seatsIN" min="1" class="form-control" id="pwd" placeholder="Enter no.of Seats">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Select Time</label>
+                            <div class="col-sm-10">
+                                <select class="form-control">
+                                    <option>11.30 AM</option>
+                                    <option>4.30 PM</option>
+                                    <option>7.30 PM</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -123,7 +133,7 @@ and open the template in the editor.
                                 <th>Seats</th>
                                 <th>Snacks</th>
                                 <th>Reservations</th>
-                                <th>Total</th>
+                                <th>Total (LKR)</th>
                             </tr>
                         </thead>
                         <tbody>

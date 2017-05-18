@@ -20,6 +20,7 @@ app.controller("masterController", function ($scope, $http) {
     $scope.specificMovies = ["Select A Theatre First"];
     $scope.mainFormValidated = true;
     $scope.testVal = "Movie System";
+    $scope.formSelector = "BASIC";
 
     //Eager loading of stuff
     $http.get(baseApi + "movies").then(function (response) {
@@ -47,7 +48,7 @@ app.controller("masterController", function ($scope, $http) {
     };
 
     $scope.mockReservation = function () {
-        var validated = true;
+
         var newObject = {
             theatre: $scope.theatreIN,
             movie: $scope.movieIN,
@@ -56,6 +57,7 @@ app.controller("masterController", function ($scope, $http) {
             cafe: parseInt($scope.cafeIN),
             user: loggedUser
         };
+        
         if (newObject.theatre == null || newObject.movie == null || newObject.snack == null || isNaN(newObject.seats) || isNaN(newObject.cafe)) {
             $scope.mainFormValidated = false;
         } else {
