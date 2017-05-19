@@ -8,7 +8,10 @@ var app = angular.module("movieApp", []);
 
 app.controller("masterController", function ($scope, $http) {
 
-    var baseApi = "http://localhost:8080/api/";
+    var baseApi = "http://localhost:28000/api/";
+    var paymentService = "http://localhost:28001/api/";
+    var mobilePaymentService = "http://localhost:28002/api/";
+    
     var jsonHeaderObject = {headers: {'Content-Type': 'application/json'}};
     var loggedUser = "ajith";
 
@@ -16,7 +19,7 @@ app.controller("masterController", function ($scope, $http) {
     $scope.allMovies = [];
     $scope.allTheatres = [];
     $scope.allSnacks = [];
-    $scope.myReservations = []
+    $scope.myReservations = [];
     $scope.specificMovies = ["Select A Theatre First"];
     $scope.mainFormValidated = true;
     $scope.testVal = "Movie System";
@@ -34,7 +37,7 @@ app.controller("masterController", function ($scope, $http) {
     $http.get(baseApi + "snacks").then(function (response) {
         $scope.allSnacks = response.data;
     });
-    
+
     $http.get(baseApi + "reservations/" + loggedUser).then(function (response) {
         $scope.myReservations = response.data;
     });
@@ -57,7 +60,7 @@ app.controller("masterController", function ($scope, $http) {
             cafe: parseInt($scope.cafeIN),
             user: loggedUser
         };
-        
+
         if (newObject.theatre == null || newObject.movie == null || newObject.snack == null || isNaN(newObject.seats) || isNaN(newObject.cafe)) {
             $scope.mainFormValidated = false;
         } else {

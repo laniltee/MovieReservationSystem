@@ -96,6 +96,7 @@ public class MovieService {
                 TheatreServiceApplication.userReservations.put(r.getU().getUserName(), l);
             }
 
+
             r.setActivated(true);
         } catch (IOException e) {
             e.printStackTrace();
@@ -108,4 +109,19 @@ public class MovieService {
     public List<Reservation> getReservationsByUser(@PathVariable String username) {
         return TheatreServiceApplication.userReservations.get(username);
     }
+
+    @RequestMapping(value = "/price", method = RequestMethod.GET)
+    public PriceQuote getPrice(@RequestBody PriceRequest pr){
+        PriceQuote pq = new PriceQuote();
+        int seatTotal = TheatreServiceApplication.theatres.get(pr.getTheatreCode()).getPrice() * pr.getSeats();
+        int snackTotal = TheatreServiceApplication.allSnacks.get(pr.getSnackCode()).getSnackPrice();
+        int netTotal = seatTotal + snackTotal;
+
+        pq.setStatus(true);
+        pq.setUser("NA");
+        pq.setTotal(netTotal);
+
+        return pq;
+    }
+
 }
