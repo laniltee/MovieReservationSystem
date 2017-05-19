@@ -11,9 +11,11 @@ app.controller("masterController", function ($scope, $http) {
     var baseApi = "http://localhost:28000/api/";
     var paymentService = "http://localhost:28001/api/";
     var mobilePaymentService = "http://localhost:28002/api/";
-    
+
     var jsonHeaderObject = {headers: {'Content-Type': 'application/json'}};
     var loggedUser = "ajith";
+    var paymentQuote = {};
+    var reservationObject = {};
 
     //Scope variables for front end;
     $scope.allMovies = [];
@@ -24,6 +26,17 @@ app.controller("masterController", function ($scope, $http) {
     $scope.mainFormValidated = true;
     $scope.testVal = "Movie System";
     $scope.formSelector = "BASIC";
+    $scope.priceRequestOk = false;
+    $scope.totalPrice = 0;
+    $scope.showPaymentSelector = false;
+    $scope.mobilePayment = false;
+    $scope.cardPayment = false;
+    $scope.showCardProcess = {
+        process: false,
+        status: "WAIT",
+        message: "none"
+    };
+
 
     //Eager loading of stuff
     $http.get(baseApi + "movies").then(function (response) {
@@ -45,6 +58,9 @@ app.controller("masterController", function ($scope, $http) {
     //Master functions
     $scope.getMoviesByTheatre = function () {
         var selectefTheatre = $scope.theatreIN;
+        var comboBox = document.getElementById("theatreSelect");
+        selectefTheatre = comboBox.options[comboBox.selectedIndex].value;
+        console.log(selectefTheatre);
         $http.get(baseApi + "theatres/movies/" + selectefTheatre).then(function (response) {
             $scope.specificMovies = response.data;
         });
@@ -64,20 +80,79 @@ app.controller("masterController", function ($scope, $http) {
         if (newObject.theatre == null || newObject.movie == null || newObject.snack == null || isNaN(newObject.seats) || isNaN(newObject.cafe)) {
             $scope.mainFormValidated = false;
         } else {
+            reservationObject = newObject;
             $scope.mainFormValidated = true;
         }
         console.log(newObject);
 
         if ($scope.mainFormValidated) {
-            $http.post(baseApi + "reservations", JSON.stringify(newObject), jsonHeaderObject).then(function (response) {
-                console.log("response success");
+
+            var priceRequest = {
+                "theatreCode": newObject.theatre,
+                "snackCode": newObject.snack,
+                "seats": newObject.seats
+            };
+
+            $http.post(baseApi + "price", priceRequest, jsonHeaderObject).then(function (response) {
                 console.log(response.data);
-            }, function (response) {
-                console.log("response.data failed");
-            }).finally(function () {
+                $scope.totalPrice = response.data.total;
+                $scope.priceRequestOk = true;
+                $scope.showPaymentSelector = true;
+                paymentQuote = response.data;
+            }, function () {
 
             });
         }
+
+    };
+
+    $scope.payCard = function () {
+
+        $scope.showCardProcess.message = "Please Wait :)";
+        $scope.showCardProcess.process = true;
+        $scope.showCardProcess.status = "Processing .. ..";
+
+        var payReq = {
+            "creditCardNo": $scope.ccNoIN,
+            "cvc": parseInt($scope.cvcNoIN),
+            "username": loggedUser,
+            "ownername": $scope.holderIN,
+            "amount": parseInt(paymentQuote.total)
+        };
+
+        console.log(payReq);
+
+        if (payReq.creditCardNo == null || payReq.ownername == null || isNaN(payReq.cvc)) {
+            $scope.showCardProcess.message = "There are errors in your input :(";
+            $scope.showCardProcess.process = true;
+            $scope.showCardProcess.status = "Error .. ..";
+        } else {
+            $http.post(paymentService + "payment", payReq, jsonHeaderObject).then(function (response) {
+                console.log(response.data);
+                $scope.showCardProcess.message = response.data.message;
+                $scope.showCardProcess.process = true;
+                $scope.showCardProcess.status = response.data.status;
+
+                if (response.data.status == true) {
+                    $http.post(baseApi + "reservations", JSON.stringify(reservationObject), jsonHeaderObject).then(function (response) {
+                        console.log("response success");
+                        console.log(response.data);
+                    }, function (response) {
+                        console.log("response.data failed");
+                    }).finally(function () {
+
+                    });
+                }
+
+
+            }, function (response) {
+                console.log(response.data);
+                $scope.showCardProcess.message = response.data.message;
+                $scope.showCardProcess.process = true;
+                $scope.showCardProcess.status = response.data.status;
+            });
+        }
+
 
     };
 });

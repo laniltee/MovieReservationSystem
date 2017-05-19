@@ -110,7 +110,7 @@ public class MovieService {
         return TheatreServiceApplication.userReservations.get(username);
     }
 
-    @RequestMapping(value = "/price", method = RequestMethod.GET)
+    @RequestMapping(value = "/price", method = RequestMethod.POST)
     public PriceQuote getPrice(@RequestBody PriceRequest pr){
         PriceQuote pq = new PriceQuote();
         int seatTotal = TheatreServiceApplication.theatres.get(pr.getTheatreCode()).getPrice() * pr.getSeats();

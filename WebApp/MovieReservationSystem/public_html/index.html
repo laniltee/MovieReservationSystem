@@ -54,11 +54,11 @@ and open the template in the editor.
                 <div class="col-md-6">
                     <h1 class="text-center">Make A Reservation</h1>
                     <hr>
-                    <form class="form-horizontal" ng-if="formSelector == 'BASIC'">
+                    <form class="form-horizontal">
                         <div class="form-group">
                             <label class="control-label col-sm-2">Select Theatre:</label>
                             <div class="col-sm-10">
-                                <select class="form-control" ng-change="getMoviesByTheatre()" ng-model="theatreIN">
+                                <select id="theatreSelect" class="form-control" ng-change="getMoviesByTheatre()" ng-model="theatreIN">
                                     <option ng-repeat="theatre in allTheatres" value="{{theatre.theatreCode}}">{{theatre.theatreName}} - {{theatre.theatreLocation| uppercase}}</option>
                                 </select>
                             </div>
@@ -110,10 +110,69 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group"> 
+                        <div class="form-group" ng-if="priceRequestOk">
+                            <label class="control-label col-sm-2"></label>
+                            <div class="col-sm-10"> 
+                                <div class="alert alert-info">
+                                    <strong>Done !</strong> Total Value: {{totalPrice}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="!showPaymentSelector"> 
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button class="btn btn-default" ng-click="mockReservation()">Proceed With Payment</button>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="showPaymentSelector">
+                            <label class="control-label col-sm-2">Payment Method:</label>
+                            <div class="col-sm-10"> 
+                                <select class="form-control" ng-model="payMethodIN">
+                                    <option value="cc">Credit Card</option>
+                                    <option value="ez">Dialog eZ Pay</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin: -15px" ng-show="payMethodIN == 'cc'">
+                            <label class="control-label col-sm-2">Card No:</label>
+                            <div class="col-sm-10"> 
+                                <input type="text" class="form-control" ng-model="ccNoIN">
+                            </div>
+                            <label class="control-label col-sm-2">CVC No:</label>
+                            <div class="col-sm-10"> 
+                                <input type="text" class="form-control" ng-model="cvcNoIN">
+                            </div>
+                            <label class="control-label col-sm-2">Holder:</label>
+                            <div class="col-sm-10"> 
+                                <input type="text" class="form-control" ng-model="holderIN">
+                            </div>
+                            <div class="form-group"> 
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button class="btn btn-info" style="margin-left: 10px; margin-top: 6px" ng-click="payCard()">Pay By Card</button>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="showCardProcess.process">
+                            <label class="control-label col-sm-2"></label>
+                            <div class="col-sm-10"> 
+                                <div class="alert alert-{{showCardProcess.status ? 'danger' : 'success'}}">
+                                    <strong>{{showCardProcess.status}}</strong> {{showCardProcess.message}}
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div style="margin: -15px" ng-show="payMethodIN == 'ez'">
+                            <label class="control-label col-sm-2" style="padding-top: 0px">Dialog No:</label>
+                            <div class="col-sm-4"> 
+                                <input type="text" class="form-control" ng-model="dialogIN">
+                            </div>
+
+                            <label class="control-label col-sm-2" style="padding-top: 0px">PIN No:</label>
+                            <div class="col-sm-4"> 
+                                <input type="text" class="form-control" ng-model="pinNoIN">
+                            </div>
+                            <div class="form-group"> 
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button class="btn btn-warning" style="margin-left: 10px" ng-click="payDialog()">Pay By Dialog</button>
+                                </div>
                             </div>
                         </div>
                     </form>
