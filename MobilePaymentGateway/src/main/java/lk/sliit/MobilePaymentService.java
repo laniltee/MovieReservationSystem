@@ -23,7 +23,7 @@ public class MobilePaymentService {
 
         if (MobilePayGatewayApplication.users.containsKey(pr.getUsername())) {
             if (MobilePayGatewayApplication.accounts.containsKey(pr.getMobileNo())) {
-                if (MobilePayGatewayApplication.users.get(pr.getUsername()).getPin() == MobilePayGatewayApplication.accounts.get(pr.getMobileNo()).getPin()) {
+                if ((MobilePayGatewayApplication.accounts.get(pr.getMobileNo()).getPin() == pr.getPin()) && (MobilePayGatewayApplication.users.get(pr.getUsername()).getPin() == pr.getPin())) {
                     if (MobilePayGatewayApplication.accounts.get(pr.getMobileNo()).getBalance() >= pr.getAmount()) {
                         pa.setStatus(true);
                         pa.setMessage("Your Transaction is Successful");
