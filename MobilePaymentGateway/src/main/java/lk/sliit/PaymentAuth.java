@@ -1,7 +1,7 @@
 package lk.sliit;
 
 /**
- * Created by VMARALA on 5/18/2017.
+ * Created by Lanil Marasinghe on 5/18/2017.
  */
 public class PaymentAuth {
     private int amount;

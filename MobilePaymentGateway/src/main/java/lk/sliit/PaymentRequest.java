@@ -1,7 +1,7 @@
 package lk.sliit;
 
 /**
- * Created by VMARALA on 5/19/2017.
+ * Created by Lanil Marasinghe on 5/19/2017.
  */
 public class PaymentRequest {
     private String username;

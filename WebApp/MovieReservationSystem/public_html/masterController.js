@@ -10,7 +10,7 @@ app.controller("masterController", function ($scope, $http) {
 
     var baseApi = "http://localhost:28000/api/";
     var paymentService = "http://localhost:28001/api/";
-    var mobilePaymentService = "http://localhost:28002/api/";
+    var mobilePaymentService = "http://localhost:28003/api/";
 
     var jsonHeaderObject = {headers: {'Content-Type': 'application/json'}};
     var loggedUser = "ajith";
@@ -32,6 +32,11 @@ app.controller("masterController", function ($scope, $http) {
     $scope.mobilePayment = false;
     $scope.cardPayment = false;
     $scope.showCardProcess = {
+        process: false,
+        status: "WAIT",
+        message: "none"
+    };
+    $scope.showMobileProcess = {
         process: false,
         status: "WAIT",
         message: "none"
@@ -153,6 +158,41 @@ app.controller("masterController", function ($scope, $http) {
             });
         }
 
+
+    };
+
+    $scope.payDialog = function () {
+        var payReq = {
+            "username": loggedUser,
+            "pin": parseInt($scope.pinNoIN),
+            "mobileNo": $scope.dialogIN,
+            "amount": parseInt(paymentQuote.total)
+        };
+        console.log(payReq);
+        console.log(paymentQuote);
+        if (payReq.mobileNo == null || isNaN(payReq.pin)) {
+            console.log("error input")
+        } else {
+            $http.post(mobilePaymentService + "payment", payReq, jsonHeaderObject).then(function (response) {
+                console.log("mobile payment api call ok");
+                console.log(response.data);
+                $scope.showMobileProcess.message = response.data.message;
+                $scope.showMobileProcess.status = response.data.status;
+                $scope.showMobileProcess.process = "DONE";
+                if (response.data.status == true) {
+                    $http.post(baseApi + "reservations", JSON.stringify(reservationObject), jsonHeaderObject).then(function (response) {
+                        console.log("response success");
+                        console.log(response.data);
+                    }, function (response) {
+                        console.log("response.data failed");
+                    }).finally(function () {
+
+                    });
+                }
+            }, function (response) {
+                console.log("mobile payment api call failed");
+            });
+        }
 
     };
 });
