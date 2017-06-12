@@ -7,13 +7,18 @@
 var app = angular.module("movieApp", []);
 
 app.controller("masterController", function ($scope, $http) {
+    
+    if(sessionStorage.getItem("loggedUser") == null){
+        alert("Please log in to see this page");
+        window.location.href = "login.html";
+    }
 
     var baseApi = "http://localhost:28000/api/";
     var paymentService = "http://localhost:28001/api/";
     var mobilePaymentService = "http://localhost:28003/api/";
 
     var jsonHeaderObject = {headers: {'Content-Type': 'application/json'}};
-    var loggedUser = "ajith";
+    var loggedUser = sessionStorage.getItem("loggedUser");
     var paymentQuote = {};
     var reservationObject = {};
 
